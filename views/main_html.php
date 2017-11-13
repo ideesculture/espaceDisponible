@@ -29,13 +29,14 @@
  	$po_request	= $this->getVar('request');
  	//Récupère valeur quota
  	$quota	= $this->getVar('quota');
- 	
+ 
+ 	$folder = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
  	//Espace utilisé
-    $result=exec("du /var/www -h --max-depth=0"); 
+    $result=exec("du $folder -h --max-depth=0"); 
     $result=explode("	",$result);
     $result[0]=$result[0]*1;
- 
 
+	
    if (!$quota || ($quota == 0)){
 	   //Espace max du serveur
 	   $quota=exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
