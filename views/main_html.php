@@ -27,18 +27,25 @@
  */
  
  	$po_request	= $this->getVar('request');
-
+ 	//Récupère valeur quota
+ 	$quota	= $this->getVar('quota');
+ 	
+ 	//Espace utilisé
     $result=exec("du /var/www -h --max-depth=0"); 
     $result=explode("	",$result);
-    $result[0]=str_replace('M', '000', $result[0]);
-    $result[0]=str_replace('G', '000000', $result[0]);
+    $result[0]=$result[0]*1;
+ 
 
-    $result2=exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
-    $result2=$result2/1000;
+   if (!$quota || ($quota == 0)){
+	   //Espace max du serveur
+	   $quota=exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
+    //Transfomre Tera en Giga
+    $quota=$result2/1000000000;
+   }
+   
+   echo"".$result[0]." GO utilisé sur un quota totale de ".round($quota) ." GO"." <BR/>";
 
-    echo"Quota: ".$result[0]." KO utilisé / ".round($result2) ." KO"." <BR/>";
-
-   //var_dump($result[0]);
+   // var_dump($result[0]);
    // die();
   
 ?>
@@ -56,13 +63,13 @@
     function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
-            ['Répertoire', 'KO'],
+            ['Répertoire', 'GO'],
             ['Utilisé', <?php print $result[0];?>],
-            ['Disponible', <?php print $result2;?>]
+            ['Disponible', <?php print $quota;?>]
         ]);
 
         var options = {
-            title: 'Espace de stockage (KO)',
+            title: 'Espace de stockage (GO)',
             colors: ['#cccccc', '#00B3CA']
         };
 

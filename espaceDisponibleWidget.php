@@ -51,6 +51,7 @@
 				'errors' => array(),
 				'warnings' => array(),
 				'available' => ((bool)$this->opo_config->get('enabled'))
+				
 			);
 		}
 		# -------------------------------------------------------
@@ -59,6 +60,9 @@
 		 */
 		public function renderWidget($ps_widget_id, &$pa_settings) {
 			parent::renderWidget($ps_widget_id, $pa_settings);
+			//Récupère valeur dans fichier conf
+			$quota2 = $this->opo_config->get('quota');
+			$this->opo_view->setVar('quota',$quota2);
 			
 			return $this->opo_view->render('main_html.php');
 		}
