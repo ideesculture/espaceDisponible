@@ -44,7 +44,7 @@
     $quota=$result2/1000000000;
    }
    
-   echo"".$result[0]." GO utilisé sur un quota totale de ".round($quota) ." GO"." <BR/>";
+   echo"".$result[0]." GO utilisé sur un quota de ".round($quota) ." GO"." <BR/>";
 
    // var_dump($result[0]);
    // die();
